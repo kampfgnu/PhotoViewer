@@ -4,3 +4,9 @@
 [submodule "Library/EGOImageLoading"]
 	path = Library/EGOImageLoading
 	url = git@github.com:enormego/EGOImageLoading.git
+[submodule "EGOCache"]
+	path = EGOCache
+	url = git@github.com:enormego/EGOCache.git
+[submodule "EGOImageLoading"]
+	path = EGOImageLoading
+	url = git@github.com:enormego/EGOImageLoading.git

@@ -94,6 +94,8 @@
 	self.view.backgroundColor = [UIColor blackColor];
 	self.wantsFullScreenLayout = YES;
 	
+//    self.title = _(@"Highlight");
+    
 	if (!_scrollView) {
 		
 		_scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
@@ -137,7 +139,7 @@
 	if ([self.photoSource numberOfPhotos] == 1 && UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
 		
 		[self.navigationController setNavigationBarHidden:YES animated:NO];
-		[self.navigationController setToolbarHidden:YES animated:NO];
+//		[self.navigationController setToolbarHidden:YES animated:NO];
 		
 		[self enqueuePhotoViewAtIndex:_pageIndex];
 		[self loadScrollViewWithPage:_pageIndex];
@@ -198,17 +200,17 @@
 	}	
 	
 	if ([self.navigationController isToolbarHidden] && (!_popover || ([self.photoSource numberOfPhotos] > 1))) {
-		[self.navigationController setToolbarHidden:NO animated:YES];
+//		[self.navigationController setToolbarHidden:NO animated:YES];
 	}
 	
 	if (!_popover) {
 		self.navigationController.navigationBar.tintColor = nil;
-		self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-		self.navigationController.navigationBar.translucent = YES;
+//		self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+//		self.navigationController.navigationBar.translucent = YES;
 		
-		self.navigationController.toolbar.tintColor = nil;
-		self.navigationController.toolbar.barStyle = UIBarStyleBlack;
-		self.navigationController.toolbar.translucent = YES;
+//		self.navigationController.toolbar.tintColor = nil;
+//		self.navigationController.toolbar.barStyle = UIBarStyleBlack;
+//		self.navigationController.toolbar.translucent = YES;
 	}
 
 	
@@ -234,7 +236,7 @@
 	if(!_oldToolBarHidden) {
 		
 		if ([self.navigationController isToolbarHidden]) {
-			[self.navigationController setToolbarHidden:NO animated:YES];
+//			[self.navigationController setToolbarHidden:NO animated:YES];
 		}
 		
 		self.navigationController.toolbar.barStyle = _oldNavBarStyle;
@@ -243,7 +245,7 @@
 		
 	} else {
 		
-		[self.navigationController setToolbarHidden:_oldToolBarHidden animated:YES];
+//		[self.navigationController setToolbarHidden:_oldToolBarHidden animated:YES];
 		
 	}
 	
@@ -313,15 +315,16 @@
 }
 
 - (void)done:(id)sender {
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)setupToolbar {
-	
+    return;
+    
 	[self setupViewForPopover];
 
 	if(_popover && [self.photoSource numberOfPhotos] == 1) {
-		[self.navigationController setToolbarHidden:YES animated:NO];
+//		[self.navigationController setToolbarHidden:YES animated:NO];
 		return;
 	}
 	
@@ -447,13 +450,13 @@
 	} else {
 		
 		[self.navigationController setNavigationBarHidden:hidden animated:animated];
-		[self.navigationController setToolbarHidden:hidden animated:animated];
+//		[self.navigationController setToolbarHidden:hidden animated:animated];
 		
 	}
 #else
 	
 	[self.navigationController setNavigationBarHidden:hidden animated:animated];
-	[self.navigationController setToolbarHidden:hidden animated:animated];
+//	[self.navigationController setToolbarHidden:hidden animated:animated];
 	
 #endif
 	
@@ -535,14 +538,14 @@
 	if (!_fullScreen) {
 		
 		NSInteger pageIndex = 0;
-		if (self.modalViewController && [self.modalViewController isKindOfClass:[UINavigationController class]]) {
-			UIViewController *controller = [((UINavigationController*)self.modalViewController) visibleViewController];
+		if (self.presentedViewController && [self.presentedViewController isKindOfClass:[UINavigationController class]]) {
+			UIViewController *controller = [((UINavigationController*)self.presentedViewController) visibleViewController];
 			if ([controller isKindOfClass:[self class]]) {
 				pageIndex = [(EGOPhotoViewController*)controller currentPhotoIndex];
 			}
 		}		
 		[self moveToPhotoAtIndex:pageIndex animated:NO];
-		[self.navigationController dismissModalViewControllerAnimated:NO];
+		[self dismissViewControllerAnimated:NO completion:nil];
 		
 	}
 	
@@ -609,7 +612,7 @@
 			UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
 			
 			navController.modalPresentationStyle = UIModalPresentationFullScreen;
-			[self.navigationController presentModalViewController:navController animated:NO];
+			[self.navigationController presentViewController:navController animated:NO completion:nil];
 			[controller moveToPhotoAtIndex:_pageIndex animated:NO];
 			
 			[navController release];
@@ -683,11 +686,11 @@
 		}
 	}
 	
-	if ([self.photoSource numberOfPhotos] > 1) {
-		self.title = [NSString stringWithFormat:@"%i of %i", _pageIndex+1, [self.photoSource numberOfPhotos]];
-	} else {
-		self.title = @"";
-	}
+//	if ([self.photoSource numberOfPhotos] > 1) {
+//		self.title = [NSString stringWithFormat:@"%i of %i", _pageIndex+1, [self.photoSource numberOfPhotos]];
+//	} else {
+//		self.title = @"";
+//	}
 	
 	if (_captionView) {
 		[_captionView setCaptionText:[[self.photoSource photoAtIndex:_pageIndex] caption] hidden:NO];
@@ -942,14 +945,14 @@
 	}
 #endif
 	
-	[self presentModalViewController:mailViewController animated:YES];
+	[self presentViewController:mailViewController animated:YES completion:nil];
 	[mailViewController release];
 	
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error{
 	
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:nil];
 	
 	NSString *mailError = nil;
 	
